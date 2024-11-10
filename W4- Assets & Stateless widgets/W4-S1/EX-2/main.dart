@@ -50,27 +50,26 @@ class ProductCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       margin: const EdgeInsets.symmetric(vertical: 8.0),
+      padding: EdgeInsets.all(10),
       child: Card(
         color: Colors.white,
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         elevation: 4,
         child: Column(
+          
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            ClipRRect(
-              borderRadius: const BorderRadius.vertical(top: Radius.circular(15)),
-              child: Image.asset(
-                product.imagePath,
-                height: 120,
-                width: 120,
-                fit: BoxFit.cover,
-              ),
-            ),
             Padding(
               padding: const EdgeInsets.all(16.0),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
+                    Image.asset(
+                    product.imagePath,
+                    height: 120,
+                    width: 120,
+                    fit: BoxFit.cover,
+                  ),
                   Text(
                     product.title,
                     style: const TextStyle(
