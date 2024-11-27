@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'model/quiz.dart';
+import 'model/submission.dart';
 import 'screens/question_screen.dart';
 import 'screens/result_screen.dart';
 import 'screens/welcome_screen.dart';
@@ -23,19 +24,15 @@ class QuizApp extends StatefulWidget {
 
 class _QuizAppState extends State<QuizApp> {
   QuizState quizState = QuizState.notStarted;
+  Submission submission = Submission();
+  int currentQuestionIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       home: Scaffold(
-        backgroundColor: appColor,
         body: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              _getScreen(),
-            ],
-          ),
+          child: _getScreen(),
         ),
       ),
     );
@@ -52,11 +49,36 @@ class _QuizAppState extends State<QuizApp> {
           },
         );
       case QuizState.started:
-        return QuestionScreen();
+        return QuestionScreen(
+          question: widget.quiz.questions[currentQuestionIndex],
+          onAnswer: (answer) {
+            submission.addAnswer(widget.quiz.questions[currentQuestionIndex], answer);
+
+            if (currentQuestionIndex == widget.quiz.questions.length - 1) {
+              setState(() {
+                quizState = QuizState.finished;
+              });
+            } else {
+              setState(() {
+                currentQuestionIndex++;
+              });
+            }
+          },
+        );
       case QuizState.finished:
-        return ResultScreen();
+        return ResultScreen(
+          submission: submission,
+          quiz: widget.quiz,
+          onRestart: () {
+            setState(() {
+              quizState = QuizState.notStarted;
+              currentQuestionIndex = 0;
+              submission.removeAnswers();
+            });
+          },
+        );
       default:
-        return Container(); // Empty container in case of an error
+        return Container();
     }
   }
 }
