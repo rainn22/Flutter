@@ -80,6 +80,7 @@ class _DeviceConverterState extends State<DeviceConverter> {
                 });
               },
             ),
+
             const SizedBox(height: 30),
             const Text("Device:"),
             DropdownButton<Device>(
@@ -88,7 +89,7 @@ class _DeviceConverterState extends State<DeviceConverter> {
               items: Device.values.map((Device device) {
                 return DropdownMenuItem<Device>(
                   value: device,
-                  child: Text(device.toString().split('.').last.toUpperCase()), // Device names from Enum
+                  child: Text(device.deviceName), 
                 );
               }).toList(),
               onChanged: (Device? newDevice) {
@@ -109,7 +110,7 @@ class _DeviceConverterState extends State<DeviceConverter> {
               padding: const EdgeInsets.all(10),
               decoration: textDecoration,
               child: Text(
-                '${_convertedAmount.toStringAsFixed(2)} ${_selectedDevice.toString().split('.').last.toUpperCase()}',
+                '${_convertedAmount.toStringAsFixed(2)} ${_selectedDevice.deviceName}',
                 style: const TextStyle(color: Colors.black, fontSize: 18),
               ),
             ),
